@@ -75,9 +75,26 @@ export function ChatWindow() {
              const provider = providers.find(p => p.id === selectedProviderId);
              const modelUsed = provider?.default_model || 'unknown';
              
+             // Generate a better topic-based title
+             const generateTopicTitle = (content: string) => {
+               // Extract key words and create a topic title
+               const words = content.toLowerCase()
+                 .replace(/[^\w\s]/g, '')
+                 .split(/\s+/)
+                 .filter(word => word.length > 3)
+                 .slice(0, 4);
+               
+               if (words.length > 0) {
+                 return words.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+               }
+               
+               // Fallback to truncated content
+               return content.slice(0, 40) + (content.length > 40 ? '...' : '');
+             };
+             
              const newConversation = {
                id: crypto.randomUUID(),
-               title: content.slice(0, 50) + (content.length > 50 ? '...' : ''),
+               title: generateTopicTitle(content),
                messages: newMessages,
                provider_id: selectedProviderId,
                model_used: modelUsed,

@@ -125,13 +125,21 @@ export function ConversationList() {
         variant="outline"
         className="w-full justify-start gap-2"
         onClick={handleNewConversation}
+        title="Start a new topic - all messages in this topic will be grouped together"
       >
         <Plus className="h-4 w-4" />
-        New Conversation
+        New Topic
       </Button>
 
       {/* Conversations List */}
       <div className="space-y-1">
+        {conversations.length > 0 && (
+          <div className="px-2 py-1">
+            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+              Topics
+            </h3>
+          </div>
+        )}
         {conversations.map((conversation) => (
           <Card
             key={conversation.id}
@@ -167,7 +175,7 @@ export function ConversationList() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <MessageSquare className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                      <h3 className="font-medium text-sm truncate">
+                      <h3 className="font-medium text-sm truncate" title={conversation.title}>
                         {conversation.title}
                       </h3>
                     </div>
@@ -184,7 +192,7 @@ export function ConversationList() {
                         {formatDistanceToNow(new Date(conversation.updated_at), { addSuffix: true })}
                       </div>
                       <div className="text-xs text-muted-foreground">
-                        {conversation.messages.length} message{conversation.messages.length !== 1 ? 's' : ''}
+                        {conversation.messages.length} exchange{conversation.messages.length !== 1 ? 's' : ''}
                       </div>
                     </div>
                   </div>
@@ -234,8 +242,8 @@ export function ConversationList() {
       {conversations.length === 0 && (
         <div className="text-center py-8 text-muted-foreground">
           <MessageSquare className="h-8 w-8 mx-auto mb-2 opacity-50" />
-          <p className="text-sm">No conversations yet</p>
-          <p className="text-xs">Start a new conversation to begin</p>
+          <p className="text-sm">No topics yet</p>
+          <p className="text-xs">Start a new topic to begin chatting</p>
         </div>
       )}
     </div>
