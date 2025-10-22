@@ -17,6 +17,7 @@ export function ChatWindow() {
   const { 
     currentConversationId, 
     selectedProviderId, 
+    setSelectedProviderId,
     currentConversation,
     setCurrentConversation,
     streamingMessage,
