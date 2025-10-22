@@ -6,6 +6,7 @@ import { useChatStream } from '@/hooks/useChatStream';
 import { useProviders } from '@/hooks/useProviders';
 import { MessageList } from './MessageList';
 import { ChatInput } from './ChatInput';
+import { StreamingIndicator } from './StreamingIndicator';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Settings } from 'lucide-react';
@@ -198,15 +199,11 @@ export function ChatWindow() {
       
       {/* Status indicator */}
       {isStreaming && (
-        <div className="border-t bg-muted/30 px-4 py-2">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <div className="flex gap-1">
-              <div className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" />
-              <div className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
-              <div className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
-            </div>
-            <span>AI is responding...</span>
-          </div>
+        <div className="border-t bg-muted/30">
+          <StreamingIndicator 
+            message="AI is responding..." 
+            showCard={false}
+          />
         </div>
       )}
       
