@@ -155,18 +155,27 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
 
       {/* Floating Particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-blue-400 rounded-full opacity-30 animate-ping"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`,
-            }}
-          />
-        ))}
+        {[...Array(20)].map((_, i) => {
+          // Use deterministic values based on index to avoid hydration mismatch
+          const seed = i * 0.618033988749895; // Golden ratio for better distribution
+          const left = ((seed * 100) % 100);
+          const top = (((seed * 1.4142135623730951) * 100) % 100);
+          const delay = ((seed * 3) % 3);
+          const duration = 2 + ((seed * 3) % 3);
+          
+          return (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-blue-400 rounded-full opacity-30 animate-ping"
+              style={{
+                left: `${left}%`,
+                top: `${top}%`,
+                animationDelay: `${delay}s`,
+                animationDuration: `${duration}s`,
+              }}
+            />
+          );
+        })}
       </div>
     </div>
   );
