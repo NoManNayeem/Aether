@@ -1,0 +1,1 @@
+{"main":{"identifier":"main","description":"Main capabilities for Aether","local":true,"windows":["main"],"permissions":["core:default","keyring:default","store:default"]}}
