@@ -23,6 +23,14 @@
       "csp": "default-src 'self' data: websocket:;"
     }
   },
+  "bundle": {
+    "identifier": "com.aether.mcpclient",
+    "publisher": "Nayeem Islam",
+    "copyright": "© 2024 Nayeem Islam. All rights reserved.",
+    "category": "Productivity",
+    "shortDescription": "Cross-platform MCP client for Large Language Models",
+    "longDescription": "A modern, cross-platform Multi-Client Protocol (MCP) client for Large Language Models, built with Tauri and Next.js for native performance and beautiful user experience."
+  },
   "plugins": {
     "keyring": {},
     "store": {}

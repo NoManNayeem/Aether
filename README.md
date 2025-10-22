@@ -263,6 +263,16 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## 👨‍💻 Author & Developer
+
+**Nayeem Islam** - Full-Stack Developer & Creator of Aether
+
+Creating innovative cross-platform applications with modern web technologies. Passionate about building secure, efficient, and user-friendly desktop applications.
+
+- **GitHub**: [@NoManNayeem](https://github.com/NoManNayeem)
+- **LinkedIn**: [Nayeem Islam](https://linkedin.com/in/nayeem-islam)
+- **Email**: [Contact](mailto:nayeem@example.com)
+
 ## 🙏 Acknowledgments
 
 - [Tauri](https://tauri.app/) - Cross-platform desktop framework
@@ -275,10 +285,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Issues**: [GitHub Issues](https://github.com/NoManNayeem/Aether/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/NoManNayeem/Aether/discussions)
-- **Email**: [Your Email]
+- **Email**: [nayeem@example.com](mailto:nayeem@example.com)
 
 ---
 
 <div align="center">
-  <strong>Built with ❤️ by the Aether Team</strong>
+  <strong>Built with ❤️ by Nayeem Islam</strong><br>
+  <em>Creating the future of cross-platform AI applications</em>
 </div>

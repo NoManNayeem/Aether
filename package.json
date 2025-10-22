@@ -2,6 +2,13 @@
   "name": "aether-client",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Nayeem Islam",
+    "email": "nayeem@example.com",
+    "url": "https://github.com/NoManNayeem"
+  },
+  "description": "A modern, cross-platform Multi-Client Protocol (MCP) client for Large Language Models, built with Tauri and Next.js.",
+  "keywords": ["aether", "mcp", "llm", "ai", "tauri", "nextjs", "cross-platform", "desktop-app"],
   "repository": {
     "type": "git",
     "url": "https://github.com/NoManNayeem/Aether.git"
