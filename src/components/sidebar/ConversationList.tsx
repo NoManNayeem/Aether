@@ -29,7 +29,8 @@ import { formatDistanceToNow } from 'date-fns';
 export function ConversationList() {
   const { 
     currentConversationId, 
-    setCurrentConversationId
+    setCurrentConversationId,
+    setSelectedProviderId
   } = useAppStore();
   
   const { conversations, removeConversation, updateTitle } = useConversations();

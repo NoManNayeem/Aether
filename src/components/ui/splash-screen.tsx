@@ -13,15 +13,14 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
   const [currentStep, setCurrentStep] = useState('');
   const [isComplete, setIsComplete] = useState(false);
 
-  const steps = [
-    { id: 'init', label: 'Initializing Aether', duration: 800 },
-    { id: 'providers', label: 'Loading providers', duration: 600 },
-    { id: 'conversations', label: 'Loading conversations', duration: 500 },
-    { id: 'ui', label: 'Preparing interface', duration: 400 },
-    { id: 'ready', label: 'Ready to launch', duration: 300 },
-  ];
-
   useEffect(() => {
+    const steps = [
+      { id: 'init', label: 'Initializing Aether', duration: 800 },
+      { id: 'providers', label: 'Loading providers', duration: 600 },
+      { id: 'conversations', label: 'Loading conversations', duration: 500 },
+      { id: 'ui', label: 'Preparing interface', duration: 400 },
+      { id: 'ready', label: 'Ready to launch', duration: 300 },
+    ];
     let currentStepIndex = 0;
     let timeoutId: NodeJS.Timeout;
 
@@ -66,7 +65,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
     };
-  }, [onComplete, steps]);
+  }, [onComplete]);
 
   return (
     <div className="fixed inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center z-50">

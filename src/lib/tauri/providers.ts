@@ -1,13 +1,5 @@
 import type { McpServerConfig } from '@/lib/types';
-
-// Extend Window interface for Tauri
-declare global {
-  interface Window {
-    __TAURI__?: {
-      invoke: (command: string, args?: Record<string, unknown>) => Promise<unknown>;
-    };
-  }
-}
+import './index';
 
 // Check if Tauri is available
 const isTauriAvailable = () => {
@@ -20,8 +12,8 @@ const isTauriAvailable = () => {
 
 // Fallback storage for browser mode
 const fallbackStorage = {
-  providers: [] as any[],
-  save: (config: any) => {
+  providers: [] as McpServerConfig[],
+  save: (config: McpServerConfig) => {
     const existing = fallbackStorage.providers.findIndex(p => p.id === config.id);
     if (existing >= 0) {
       fallbackStorage.providers[existing] = config;
@@ -56,13 +48,19 @@ const safeInvoke = async <T = unknown>(command: string, args?: Record<string, un
     if (command === 'get_all_providers') {
       return fallbackStorage.load() as T;
     } else if (command === 'save_provider_config') {
-      fallbackStorage.save(args.config);
+      if (args && args.config) {
+        fallbackStorage.save(args.config as McpServerConfig);
+      }
       return undefined as T;
     } else if (command === 'delete_provider') {
-      fallbackStorage.delete(args.providerId);
+      if (args && args.providerId) {
+        fallbackStorage.delete(args.providerId as string);
+      }
       return undefined as T;
     } else if (command === 'update_provider_config') {
-      fallbackStorage.save(args.config);
+      if (args && args.config) {
+        fallbackStorage.save(args.config as McpServerConfig);
+      }
       return undefined as T;
     }
     

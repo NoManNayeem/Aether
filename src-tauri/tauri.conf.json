@@ -24,7 +24,6 @@
     }
   },
   "bundle": {
-    "identifier": "com.aether.mcpclient",
     "publisher": "Nayeem Islam",
     "copyright": "© 2024 Nayeem Islam. All rights reserved.",
     "category": "Productivity",

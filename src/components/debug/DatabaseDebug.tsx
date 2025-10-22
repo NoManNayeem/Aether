@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useConversations } from '@/hooks/useConversations';
 import { useProviders } from '@/hooks/useProviders';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -18,7 +18,7 @@ export function DatabaseDebug() {
     localStorage: boolean;
   } | null>(null);
 
-  const runDatabaseTest = async () => {
+  const runDatabaseTest = useCallback(async () => {
     try {
       setLastRefresh(new Date());
       
@@ -56,7 +56,7 @@ export function DatabaseDebug() {
         localStorage: false,
       });
     }
-  };
+  }, [conversations.length, providers.length, refreshConversations, refreshProviders]);
 
   const clearAllData = () => {
     if (confirm('Are you sure you want to clear all data? This cannot be undone.')) {

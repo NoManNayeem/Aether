@@ -1,13 +1,5 @@
 import type { Conversation } from '@/lib/types';
-
-// Extend Window interface for Tauri
-declare global {
-  interface Window {
-    __TAURI__?: {
-      invoke: (command: string, args?: Record<string, unknown>) => Promise<unknown>;
-    };
-  }
-}
+import './index';
 
 // Check if Tauri is available
 const isTauriAvailable = () => {
@@ -71,13 +63,19 @@ const safeInvoke = async <T = unknown>(command: string, args?: Record<string, un
     if (command === 'get_all_conversations') {
       return fallbackConversationStorage.load() as T;
     } else if (command === 'save_conversation') {
-      fallbackConversationStorage.save(args.conversation);
+      if (args && args.conversation) {
+        fallbackConversationStorage.save(args.conversation as Conversation);
+      }
       return undefined as T;
     } else if (command === 'delete_conversation') {
-      fallbackConversationStorage.delete(args.conversationId);
+      if (args && args.conversationId) {
+        fallbackConversationStorage.delete(args.conversationId as string);
+      }
       return undefined as T;
     } else if (command === 'update_conversation_title') {
-      fallbackConversationStorage.updateTitle(args.conversationId, args.title);
+      if (args && args.conversationId && args.title) {
+        fallbackConversationStorage.updateTitle(args.conversationId as string, args.title as string);
+      }
       return undefined as T;
     }
     

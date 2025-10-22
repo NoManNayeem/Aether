@@ -16,8 +16,7 @@ export function TauriStatus() {
   useEffect(() => {
     const checkTauri = () => {
       try {
-        // @ts-expect-error
-        const isTauri = typeof window !== 'undefined' && window.__TAURI__;
+        const isTauri = typeof window !== 'undefined' && !!window.__TAURI__;
         const userAgent = typeof window !== 'undefined' ? window.navigator.userAgent : 'N/A';
         setStatus({ isTauri, userAgent, error: null, testResult: null });
       } catch (error) {

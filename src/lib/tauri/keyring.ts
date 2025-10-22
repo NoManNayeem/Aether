@@ -1,11 +1,4 @@
-// Extend Window interface for Tauri
-declare global {
-  interface Window {
-    __TAURI__?: {
-      invoke: (command: string, args?: Record<string, unknown>) => Promise<unknown>;
-    };
-  }
-}
+import './index';
 
 // Check if Tauri is available
 const isTauriAvailable = () => {
@@ -41,10 +34,14 @@ const safeInvoke = async <T = unknown>(command: string, args?: Record<string, un
     console.warn('Tauri API is not available. Using localStorage fallback for keyring.');
     
     if (command === 'store_api_key') {
-      fallbackKeyring.save(args.providerId, args.apiKey);
+      if (args && args.providerId && args.apiKey) {
+        fallbackKeyring.save(args.providerId as string, args.apiKey as string);
+      }
       return undefined as T;
     } else if (command === 'delete_api_key') {
-      fallbackKeyring.delete(args.providerId);
+      if (args && args.providerId) {
+        fallbackKeyring.delete(args.providerId as string);
+      }
       return undefined as T;
     }
     
