@@ -3,8 +3,9 @@
 import { Card } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import ReactMarkdown from 'react-markdown';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+// Temporarily disabled syntax highlighting to fix build issues
+// import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+// import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import type { ChatMessage } from '@/lib/types';
 import { User, Bot, Copy, Check } from 'lucide-react';
 import { useState } from 'react';
@@ -50,15 +51,11 @@ export function Message({ message, isStreaming = false }: MessageProps) {
                 code({ node, inline, className, children, ...props }) {
                   const match = /language-(\w+)/.exec(className || '');
                   return !inline && match ? (
-                    <SyntaxHighlighter
-                      style={oneDark}
-                      language={match[1]}
-                      PreTag="div"
-                      className="rounded-md"
-                      {...props}
-                    >
-                      {String(children).replace(/\n$/, '')}
-                    </SyntaxHighlighter>
+                    <pre className="bg-slate-900 text-slate-100 p-4 rounded-md overflow-x-auto">
+                      <code className={`language-${match[1]} text-sm font-mono`} {...props}>
+                        {String(children).replace(/\n$/, '')}
+                      </code>
+                    </pre>
                   ) : (
                     <code className="bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-sm font-mono" {...props}>
                       {children}

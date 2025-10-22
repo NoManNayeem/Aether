@@ -56,7 +56,7 @@ export function ConversationList() {
   const handleSaveEdit = async () => {
     if (editingId && editTitle.trim()) {
       try {
-        await updateTitle(editingId, editTitle.trim());
+        await handleRenameConversation(editingId, editTitle.trim());
         setEditingId(null);
         setEditTitle('');
       } catch (error) {
@@ -71,7 +71,14 @@ export function ConversationList() {
   };
 
   const handleDeleteConversation = async (conversationId: string) => {
-    if (confirm('Are you sure you want to delete this conversation?')) {
+    const conversation = conversations.find(c => c.id === conversationId);
+    const messageCount = conversation?.messages.length || 0;
+    
+    const confirmMessage = messageCount > 0 
+      ? `Are you sure you want to delete this conversation? This will permanently delete ${messageCount} message${messageCount !== 1 ? 's' : ''}.`
+      : 'Are you sure you want to delete this conversation?';
+    
+    if (confirm(confirmMessage)) {
       try {
         await removeConversation(conversationId);
         // If we're deleting the current conversation, clear the selection
@@ -80,6 +87,7 @@ export function ConversationList() {
         }
       } catch (error) {
         console.error('Failed to delete conversation:', error);
+        alert('Failed to delete conversation. Please try again.');
       }
     }
   };
@@ -87,6 +95,17 @@ export function ConversationList() {
   const handleNewConversation = () => {
     setCurrentConversationId(null);
     setSelectedProviderId(null);
+  };
+
+  const handleRenameConversation = async (conversationId: string, newTitle: string) => {
+    if (newTitle.trim() && newTitle.trim() !== conversations.find(c => c.id === conversationId)?.title) {
+      try {
+        await updateTitle(conversationId, newTitle.trim());
+      } catch (error) {
+        console.error('Failed to rename conversation:', error);
+        alert('Failed to rename conversation. Please try again.');
+      }
+    }
   };
 
   const getProviderName = (providerId: string) => {
@@ -160,8 +179,13 @@ export function ConversationList() {
                       </span>
                     </div>
                     
-                    <div className="text-xs text-muted-foreground mt-1">
-                      {formatDistanceToNow(new Date(conversation.updated_at), { addSuffix: true })}
+                    <div className="flex items-center justify-between mt-1">
+                      <div className="text-xs text-muted-foreground">
+                        {formatDistanceToNow(new Date(conversation.updated_at), { addSuffix: true })}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {conversation.messages.length} message{conversation.messages.length !== 1 ? 's' : ''}
+                      </div>
                     </div>
                   </div>
                   

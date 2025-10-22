@@ -68,6 +68,8 @@ export function ChatWindow() {
 
            // If no current conversation, create a new one
            let conversationId = currentConversationId;
+           let currentConversationData = currentConversation;
+           
            if (!conversationId) {
              // Get the provider to get the model
              const provider = providers.find(p => p.id === selectedProviderId);
@@ -85,6 +87,7 @@ export function ChatWindow() {
              
              await addConversation(newConversation);
              conversationId = newConversation.id;
+             currentConversationData = newConversation;
            }
 
            // Send to LLM
@@ -106,16 +109,21 @@ export function ChatWindow() {
                  setMessages(finalMessages);
                  
                  // Update the conversation in storage
-                 if (conversationId && currentConversation) {
+                 if (conversationId && currentConversationData) {
                    const updatedConversation = {
-                     ...currentConversation,
+                     ...currentConversationData,
                      messages: finalMessages,
                      updated_at: new Date().toISOString(),
                    };
                    
                    // Save the updated conversation
-                   updateConversation(updatedConversation);
+                   await updateConversation(updatedConversation);
                    setCurrentConversation(updatedConversation);
+                   
+                   // Update the conversation ID in the store if it's a new conversation
+                   if (!currentConversationId) {
+                     setCurrentConversationId(conversationId);
+                   }
                  }
                }
              });
