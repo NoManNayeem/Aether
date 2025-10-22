@@ -16,6 +16,7 @@ import type { ChatMessage } from '@/lib/types';
 export function ChatWindow() {
   const { 
     currentConversationId, 
+    setCurrentConversationId,
     selectedProviderId, 
     setSelectedProviderId,
     currentConversation,
@@ -107,11 +108,15 @@ export function ChatWindow() {
              currentConversationData = newConversation;
            }
 
-           // Send to LLM
+           // Send to LLM with full conversation history
            try {
              let accumulatedResponse = '';
              
-             await sendMessage(selectedProviderId, newMessages, async (chunk) => {
+             // Use the full conversation history, not just the new message
+             const fullConversationHistory = currentConversationData ? 
+               currentConversationData.messages : newMessages;
+             
+             await sendMessage(selectedProviderId, fullConversationHistory, async (chunk) => {
                if (!chunk.finished) {
                  accumulatedResponse += chunk.text;
                } else {
@@ -122,7 +127,7 @@ export function ChatWindow() {
                    timestamp: new Date().toISOString(),
                  };
                  
-                 const finalMessages = [...newMessages, assistantMessage];
+                 const finalMessages = [...fullConversationHistory, assistantMessage];
                  setMessages(finalMessages);
                  
                  // Update the conversation in storage
