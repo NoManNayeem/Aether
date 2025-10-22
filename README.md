@@ -8,6 +8,30 @@
 
 > A modern, cross-platform Multi-Client Protocol (MCP) client for Large Language Models, built with Tauri and Next.js.
 
+## 📊 Project Status
+
+### ✅ **Completed Features**
+- **Desktop Application** - Fully functional Tauri + Next.js app
+- **Multi-Provider Support** - OpenAI and Local LLM integration
+- **Real-time Chat** - Streaming responses with typing indicators
+- **Conversation Management** - CRUD operations with persistence
+- **Secure Storage** - API keys stored in OS keyring
+- **Mobile-Responsive Landing Page** - Professional GitHub Pages site
+- **CI/CD Pipeline** - Automated builds and releases
+- **Cross-Platform Builds** - macOS, Windows, Linux support
+
+### 🚧 **In Development**
+- **Enhanced UI Components** - Additional shadcn/ui integrations
+- **Plugin System** - Extensible provider architecture
+- **Advanced Settings** - More configuration options
+- **Performance Optimizations** - Memory and speed improvements
+
+### 📋 **Roadmap**
+- **Plugin Marketplace** - Third-party provider support
+- **Team Collaboration** - Shared conversations and workspaces
+- **Advanced Analytics** - Usage statistics and insights
+- **Mobile App** - React Native companion app
+
 ## ✨ Features
 
 ### 🚀 **Core Capabilities**
@@ -17,6 +41,13 @@
 - **Secure API Key Management** - OS-native keyring integration
 - **Conversation Management** - Full CRUD operations with persistence
 - **Model Tracking** - Remember which model was used for each conversation
+
+### 📱 **Mobile-Responsive Landing Page**
+- **GitHub Pages Site** - Professional landing page with animations
+- **Mobile-First Design** - Responsive across all devices
+- **Interactive Demo** - Live preview of the desktop application
+- **Download Buttons** - Direct links to platform-specific releases
+- **Setup Instructions** - Comprehensive guides for local LLM setup
 
 ### 🎨 **User Experience**
 - **Beautiful UI** - Modern design with shadcn/ui components
@@ -49,7 +80,7 @@
 
 ### Prerequisites
 
-- **Node.js** 18+ and npm
+- **Node.js** 20+ and npm (required for Next.js 16)
 - **Rust** 1.70+ (for Tauri)
 - **Git** for cloning the repository
 
@@ -79,6 +110,50 @@ npm run tauri:build
 
 # Build only the web version
 npm run build
+```
+
+### Download Pre-built Releases
+
+Pre-built desktop applications are available for download from the [GitHub Releases](https://github.com/NoManNayeem/Aether/releases) page:
+
+- **macOS**: Intel & Apple Silicon (DMG)
+- **Windows**: x64 & ARM64 (MSI)
+- **Linux**: x64 & ARM64 (AppImage & DEB)
+
+## 🔄 CI/CD & Automation
+
+### GitHub Actions Workflows
+
+The project includes comprehensive GitHub Actions workflows for automated CI/CD:
+
+#### **CI Workflow** (`.github/workflows/ci.yml`)
+- **Triggers**: Push to `main` branch, pull requests
+- **Actions**: Linting, building, and testing
+- **Node.js**: 20.x (fixes Next.js 16 compatibility)
+
+#### **Pages Workflow** (`.github/workflows/pages.yml`)
+- **Triggers**: Push to `main` branch
+- **Actions**: Builds and deploys GitHub Pages site
+- **URL**: [https://nomannayeem.github.io/Aether](https://nomannayeem.github.io/Aether)
+
+#### **Release Workflow** (`.github/workflows/release.yml`)
+- **Triggers**: Version tags (e.g., `v1.0.0`)
+- **Actions**: Builds desktop apps for all platforms
+- **Outputs**: DMG, MSI, AppImage, and DEB packages
+
+### Creating a Release
+
+To create a new desktop release:
+
+```bash
+# Tag a new version
+git tag v1.0.0
+git push origin v1.0.0
+
+# GitHub Actions will automatically:
+# 1. Build for all platforms
+# 2. Create a GitHub release
+# 3. Upload all artifacts
 ```
 
 ## 📖 Usage
@@ -238,6 +313,21 @@ curl http://localhost:11434/api/tags
 docker ps | grep ollama
 ```
 
+**GitHub Actions build fails**
+```bash
+# Ensure Node.js 20+ is used
+# The workflows are configured to use Node.js 20.x
+# Check the workflow files in .github/workflows/
+```
+
+**Node.js version issues**
+```bash
+# Next.js 16 requires Node.js >=20.9.0
+# Update your Node.js version:
+nvm install 20
+nvm use 20
+```
+
 ### Debug Mode
 
 Enable debug logging:
@@ -280,6 +370,19 @@ Creating innovative cross-platform applications with modern web technologies. Pa
 - [shadcn/ui](https://ui.shadcn.com/) - Beautiful UI components
 - [Rust](https://www.rust-lang.org/) - Systems programming language
 - [Ollama](https://ollama.ai/) - Local LLM runner
+
+## 🌐 Website & Documentation
+
+### **Landing Page**
+- **URL**: [https://nomannayeem.github.io/Aether](https://nomannayeem.github.io/Aether)
+- **Features**: Mobile-responsive design with interactive demo
+- **Content**: Download links, setup instructions, feature showcase
+- **Auto-deployment**: Updates automatically on push to `main` branch
+
+### **Documentation**
+- **GitHub Actions**: [`.github/README.md`](.github/README.md) - CI/CD setup guide
+- **API Documentation**: Inline code documentation
+- **Contributing Guide**: See [CONTRIBUTING.md](CONTRIBUTING.md) (coming soon)
 
 ## 📞 Support
 
