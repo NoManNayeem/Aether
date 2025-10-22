@@ -94,7 +94,7 @@ export function ChatWindow() {
            try {
              let accumulatedResponse = '';
              
-             await sendMessage(selectedProviderId, newMessages, (chunk) => {
+             await sendMessage(selectedProviderId, newMessages, async (chunk) => {
                if (!chunk.finished) {
                  accumulatedResponse += chunk.text;
                } else {
