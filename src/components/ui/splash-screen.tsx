@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle, Loader2 } from 'lucide-react';
 
@@ -67,7 +66,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
     };
-  }, [onComplete]);
+  }, [onComplete, steps]);
 
   return (
     <div className="fixed inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center z-50">

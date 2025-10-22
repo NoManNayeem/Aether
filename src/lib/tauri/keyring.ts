@@ -1,7 +1,9 @@
 // Extend Window interface for Tauri
 declare global {
   interface Window {
-    __TAURI__?: any;
+    __TAURI__?: {
+      invoke: (command: string, args?: Record<string, unknown>) => Promise<unknown>;
+    };
   }
 }
 
@@ -33,7 +35,7 @@ const fallbackKeyring = {
 };
 
 // Safe invoke function with error handling
-const safeInvoke = async <T = any>(command: string, args?: any): Promise<T> => {
+const safeInvoke = async <T = unknown>(command: string, args?: Record<string, unknown>): Promise<T> => {
   if (!isTauriAvailable()) {
     // Use fallback storage when not in Tauri environment
     console.warn('Tauri API is not available. Using localStorage fallback for keyring.');

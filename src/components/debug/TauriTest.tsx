@@ -15,7 +15,7 @@ export function TauriTest() {
     // Check if we're in Tauri environment
     const checkTauri = () => {
       try {
-        // @ts-ignore
+        // @ts-expect-error
         return typeof window !== 'undefined' && window.__TAURI__;
       } catch {
         return false;

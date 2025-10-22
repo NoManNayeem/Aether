@@ -72,8 +72,11 @@ export function DatabaseDebug() {
   };
 
   useEffect(() => {
-    runDatabaseTest();
-  }, []);
+    const testDatabase = async () => {
+      await runDatabaseTest();
+    };
+    testDatabase();
+  }, [runDatabaseTest]);
 
   return (
     <Card className="w-full">

@@ -3,7 +3,10 @@ import type { ChatMessage, ChatResponseChunk } from '@/lib/types';
 // Extend Window interface for Tauri
 declare global {
   interface Window {
-    __TAURI__?: any;
+    __TAURI__?: {
+      invoke: (command: string, args?: Record<string, unknown>) => Promise<unknown>;
+      listen: (event: string, handler: (event: { payload: unknown }) => void) => Promise<() => void>;
+    };
   }
 }
 
@@ -82,7 +85,7 @@ export function startChatStream(
                 if (content) {
                   callback({ text: content, finished: false });
                 }
-              } catch (e) {
+              } catch {
                 // Ignore parsing errors for malformed JSON
               }
             }

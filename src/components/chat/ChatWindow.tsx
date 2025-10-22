@@ -6,7 +6,6 @@ import { useChatStream } from '@/hooks/useChatStream';
 import { useProviders } from '@/hooks/useProviders';
 import { MessageList } from './MessageList';
 import { ChatInput } from './ChatInput';
-import { StreamingIndicator } from './StreamingIndicator';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Settings } from 'lucide-react';
@@ -19,9 +18,7 @@ export function ChatWindow() {
     selectedProviderId, 
     setSelectedProviderId,
     currentConversation,
-    setCurrentConversation,
-    streamingMessage,
-    clearStreamingMessage
+    setCurrentConversation
   } = useAppStore();
   
   const { conversations, addConversation, updateConversation } = useConversations();
@@ -31,21 +28,25 @@ export function ChatWindow() {
 
   // Load conversation messages when conversation changes
   useEffect(() => {
-    if (currentConversationId && conversations.length > 0) {
-      const conversation = conversations.find(c => c.id === currentConversationId);
-      if (conversation) {
-        setCurrentConversation(conversation);
-        setMessages(conversation.messages);
-        
-        // Restore the provider selection based on the conversation
-        if (conversation.provider_id && conversation.provider_id !== selectedProviderId) {
-          setSelectedProviderId(conversation.provider_id);
+    const loadConversation = () => {
+      if (currentConversationId && conversations.length > 0) {
+        const conversation = conversations.find(c => c.id === currentConversationId);
+        if (conversation) {
+          setCurrentConversation(conversation);
+          setMessages(conversation.messages);
+          
+          // Restore the provider selection based on the conversation
+          if (conversation.provider_id && conversation.provider_id !== selectedProviderId) {
+            setSelectedProviderId(conversation.provider_id);
+          }
         }
+      } else {
+        setCurrentConversation(null);
+        setMessages([]);
       }
-    } else {
-      setCurrentConversation(null);
-      setMessages([]);
-    }
+    };
+    
+    loadConversation();
   }, [currentConversationId, conversations, setCurrentConversation, selectedProviderId, setSelectedProviderId]);
 
   // Handle sending a message
