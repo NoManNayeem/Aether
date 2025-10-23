@@ -32,39 +32,75 @@ export function Message({ message, isStreaming = false }: MessageProps) {
   };
 
   return (
-    <div className={`flex gap-3 ${isUser ? 'flex-row-reverse' : 'flex-row'} animate-slide-in`}>
-      <Avatar className="h-8 w-8 flex-shrink-0">
-        <AvatarFallback className={isUser ? 'bg-primary text-primary-foreground' : 'bg-secondary'}>
-          {isUser ? <User className="h-4 w-4" /> : <Bot className="h-4 w-4" />}
+    <div className={`flex gap-4 ${isUser ? 'flex-row-reverse' : 'flex-row'} animate-slide-in`}>
+      <Avatar className={`h-10 w-10 flex-shrink-0 ring-2 transition-all duration-200 ${
+        isUser 
+          ? 'ring-primary/20 hover:ring-primary/40' 
+          : 'ring-accent/20 hover:ring-accent/40'
+      }`}>
+        <AvatarFallback className={`${
+          isUser 
+            ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white' 
+            : 'bg-gradient-to-br from-purple-500 to-pink-500 text-white'
+        }`}>
+          {isUser ? <User className="h-5 w-5" /> : <Bot className="h-5 w-5" />}
         </AvatarFallback>
       </Avatar>
       
-      <Card className={`flex-1 p-4 transition-all duration-200 hover:shadow-md group ${
+      <Card className={`flex-1 p-5 transition-all duration-300 group relative overflow-hidden ${
         isUser 
-          ? 'bg-primary text-primary-foreground shadow-sm' 
-          : 'bg-muted border'
+          ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30 border-0' 
+          : 'bg-card border border-border/50 hover:border-border hover:shadow-lg hover-lift'
       }`}>
-        <div className="prose prose-sm max-w-none dark:prose-invert prose-headings:font-semibold prose-p:leading-relaxed prose-pre:bg-slate-800 prose-pre:border prose-pre:border-slate-700">
+        {/* Subtle gradient overlay for assistant messages */}
+        {isAssistant && (
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+        )}
+        <div className={`prose prose-sm max-w-none relative z-10 ${
+          isUser 
+            ? 'prose-invert' 
+            : 'dark:prose-invert'
+        } prose-headings:font-semibold prose-p:leading-relaxed prose-pre:bg-slate-900 prose-pre:border prose-pre:border-slate-700 prose-pre:shadow-lg`}>
           {isAssistant ? (
             <ReactMarkdown
               components={{
                 code({ node, inline, className, children, ...props }) {
                   const match = /language-(\w+)/.exec(className || '');
                   return !inline && match ? (
-                    <pre className="bg-slate-900 text-slate-100 p-4 rounded-md overflow-x-auto">
-                      <code className={`language-${match[1]} text-sm font-mono`} {...props}>
-                        {String(children).replace(/\n$/, '')}
-                      </code>
-                    </pre>
+                    <div className="relative group/code">
+                      <pre className="bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto border border-slate-700 shadow-lg">
+                        <code className={`language-${match[1]} text-sm font-mono`} {...props}>
+                          {String(children).replace(/\n$/, '')}
+                        </code>
+                      </pre>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          navigator.clipboard.writeText(String(children));
+                        }}
+                        className="absolute top-2 right-2 opacity-0 group-hover/code:opacity-100 transition-opacity h-8 w-8 p-0 bg-slate-800 hover:bg-slate-700"
+                      >
+                        <Copy className="h-3 w-3" />
+                      </Button>
+                    </div>
                   ) : (
-                    <code className="bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-sm font-mono" {...props}>
+                    <code className={`${
+                      isUser 
+                        ? 'bg-white/20 text-white' 
+                        : 'bg-slate-100 dark:bg-slate-800'
+                    } px-1.5 py-0.5 rounded text-sm font-mono`} {...props}>
                       {children}
                     </code>
                   );
                 },
                 blockquote({ children }) {
                   return (
-                    <blockquote className="border-l-4 border-blue-500 pl-4 italic text-slate-600 dark:text-slate-300">
+                    <blockquote className={`border-l-4 pl-4 italic ${
+                      isUser 
+                        ? 'border-white/40 text-white/90' 
+                        : 'border-blue-500 text-slate-600 dark:text-slate-300'
+                    }`}>
                       {children}
                     </blockquote>
                   );
@@ -123,18 +159,28 @@ export function Message({ message, isStreaming = false }: MessageProps) {
         </div>
         
         {isStreaming && (
-          <div className="mt-3 flex items-center gap-1">
+          <div className="mt-4 flex items-center gap-2 relative z-10">
             <div className="flex space-x-1">
-              <div className="w-2 h-2 bg-current rounded-full animate-bounce" />
-              <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
-              <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+              <div className={`w-2 h-2 rounded-full animate-bounce ${
+                isUser ? 'bg-white/70' : 'bg-primary'
+              }`} />
+              <div className={`w-2 h-2 rounded-full animate-bounce ${
+                isUser ? 'bg-white/70' : 'bg-primary'
+              }`} style={{ animationDelay: '0.1s' }} />
+              <div className={`w-2 h-2 rounded-full animate-bounce ${
+                isUser ? 'bg-white/70' : 'bg-primary'
+              }`} style={{ animationDelay: '0.2s' }} />
             </div>
-            <span className="text-xs opacity-70 ml-2">AI is thinking...</span>
+            <span className={`text-xs font-medium ${
+              isUser ? 'text-white/80' : 'text-muted-foreground'
+            }`}>Generating response...</span>
           </div>
         )}
         
-        <div className="flex items-center justify-between mt-3">
-          <div className="text-xs opacity-70">
+        <div className="flex items-center justify-between mt-4 relative z-10">
+          <div className={`text-xs font-medium ${
+            isUser ? 'text-white/70' : 'text-muted-foreground'
+          }`}>
             {new Date(message.timestamp).toLocaleTimeString()}
           </div>
           
@@ -143,12 +189,13 @@ export function Message({ message, isStreaming = false }: MessageProps) {
               variant="ghost"
               size="sm"
               onClick={copyToClipboard}
-              className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0"
+              className="opacity-0 group-hover:opacity-100 transition-all duration-200 h-8 w-8 p-0 hover:bg-accent/10 hover:scale-110"
+              title="Copy message"
             >
               {copied ? (
-                <Check className="h-3 w-3 text-green-600" />
+                <Check className="h-4 w-4 text-green-500" />
               ) : (
-                <Copy className="h-3 w-3" />
+                <Copy className="h-4 w-4" />
               )}
             </Button>
           )}
